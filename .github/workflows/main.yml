@@ -34,6 +34,7 @@ jobs:
       # install applicaion dependencies
       - name: Install dependencies
         run: |
+          working-directory: client
           npm install
           npm ci 
       # build and test the apps     
