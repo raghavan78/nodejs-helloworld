@@ -10,35 +10,39 @@ on:
     branches: [ main ]
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
+
+env:
+  duplo_host: https://test01.duplocloud.net  # CHANGE ME!
+  duplo_token: "${{ secrets.DUPLO_TOKEN }}"
+  SERVICE_NAME: mynodejs                      # CHANGE ME!
+  TENANT_NAME: raghavan02                        # CHANGE ME!
   
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains multiple jobs
-  build_test:
-    # The type of runner that the job will run on
+  build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [16.x]
-        
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v2
 
-      - name: setup node
-        uses: actions/setup-node@master
+      # Set up for docker build
+      - name: Get AWS credentials
+        uses: duplocloud/ghactions-aws-jit@master
         with:
-          node-version: ${{ matrix.node-version }}
-          working-directory: docker_web_app
+          tenant: default
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
 
-      # install applicaion dependencies
-      - name: Install dependencies
-        run: |
-          npm install
-          npm ci 
-      # build and test the apps     
-      - name: build
-        run: |
-          npm run build
-          npm run test
+      # Build and push the docker image
+      - name: Docker Build and Push
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: true
+          tags: |
+            ${{ steps.login-ecr.outputs.registry }}/${{ env.SERVICE_NAME }}:${{ github.sha }}
+            
+    # This part is important - it will be used by the deploy job
+    outputs:
+      image: "${{ steps.login-ecr.outputs.registry }}/${{ env.SERVICE_NAME }}:${{ github.sha }}"
