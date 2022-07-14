@@ -57,9 +57,7 @@ jobs:
         run: |-
           current_distribution_config=$(aws cloudfront get-distribution --id ${{inputs.cloudfront_distribution_id}})
           echo $current_distribution_config
-          etag=$(bin/lib/get-etag "$current_distribution_config")
-          echo $etag
-          aws cloudfront update-distribution --id ${{inputs.cloudfront_distribution_id}} --distribution-config ${{ github.sha }} 
+          aws cloudfront update-distribution --id ${{inputs.cloudfront_distribution_id}} --distribution-config $current_distribution_config
 
       - name: Invalidate Cloudfront
         uses: chetan/invalidate-cloudfront-action@v2
