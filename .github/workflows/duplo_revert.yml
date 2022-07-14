@@ -24,7 +24,6 @@ on:
         default: us-east-1
       git_hub_sha:
         required: true
-        default: ${{ github.sha }} 
     secrets:
       duplo_host:
         required: true
