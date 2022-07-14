@@ -51,6 +51,7 @@ jobs:
           ls build/*
           # Sync files to S3 from a local directory named "build"
           aws s3 sync build/ "s3://${{ inputs.target_s3_bucket }}/"
+          aws s3 sync build/ "s3://${{ inputs.target_s3_bucket }}/${{ github.sha }}"
 
       - name: Invalidate Cloudfront
         uses: chetan/invalidate-cloudfront-action@v2
