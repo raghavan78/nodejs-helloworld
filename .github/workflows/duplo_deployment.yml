@@ -55,6 +55,7 @@ jobs:
 
       - name: CF update
         run: |-
+          current_distribution_config=$(aws cloudfront get-distribution --id ${{inputs.cloudfront_distribution_id}})
           aws cloudfront update-distribution --id ${{inputs.cloudfront_distribution_id}} --distribution-config ${{ github.sha }}
 
       - name: Invalidate Cloudfront
