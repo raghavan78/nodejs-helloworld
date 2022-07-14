@@ -24,7 +24,7 @@ on:
         default: us-east-1
       git_hub_sha:
         required: true
-        default: /"${{ github.sha }}" 
+        default: ${{ github.sha }} 
     secrets:
       duplo_host:
         required: true
@@ -54,7 +54,7 @@ jobs:
         run: |-
           #NEW_ORIGIN_PATH=/$(git log -2 --format=format:"%H"|tail -1)
           #echo $NEW_ORIGIN_PATH
-          NEW_ORIGIN_PATH= ${{ inputs.git_hub_sha }}
+          NEW_ORIGIN_PATH= /${{ inputs.git_hub_sha }}
           echo $NEW_ORIGIN_PATH
           CLOUDFRONT_ORIGIN_ID="duploservices-raghavan01-s3app1-386269687991.s3.us-east-1.amazonaws.com"
           DIST_CONFIG_OLD_FILENAME="dist-config.json"
