@@ -48,7 +48,7 @@ jobs:
 
       - name: CF revert
         run: |-
-          NEW_ORIGIN_PATH2=/$(git rev-parse @{1})
+          NEW_ORIGIN_PATH2=/$(git log -2 --format=format:"%H"|tail -1)
           echo $NEW_ORIGIN_PATH2
           NEW_ORIGIN_PATH=/$(git log -2 --format=format:"%H"|tail -1)
           echo $NEW_ORIGIN_PATH
@@ -59,7 +59,6 @@ jobs:
           DIST_CONFIG_NEW_FILENAME="dist-config2.json"
           aws cloudfront get-distribution --id ${{inputs.cloudfront_distribution_id}} > $DIST_CONFIG_OLD_FILENAME
           Etag=`cat $DIST_CONFIG_OLD_FILENAME | jq '.ETag' | tr -d \"`
-          echo $Etag
           cat $DIST_CONFIG_OLD_FILENAME | jq --arg targetOriginId $CLOUDFRONT_ORIGIN_ID --arg newOriginPath $NEW_ORIGIN_PATH '.Distribution.DistributionConfig | .Origins.Items = (.Origins.Items | map(if (.Id == $targetOriginId) then (.OriginPath = $newOriginPath) else . end))' > $DIST_CONFIG_NEW_FILENAME
           cat $DIST_CONFIG_NEW_FILENAME
           aws cloudfront update-distribution --id ${{inputs.cloudfront_distribution_id}} --distribution-config "file://${DIST_CONFIG_NEW_FILENAME}" --if-match $Etag > /dev/null
