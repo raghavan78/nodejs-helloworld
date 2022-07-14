@@ -14,8 +14,8 @@ env:
   
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  copys3:
-    name: Deploy to dev
+  reverts3:
+    name: Revert Deploy to dev
     uses: ./.github/workflows/duplo_revert.yml
     with:
       api_url: https://api_url
