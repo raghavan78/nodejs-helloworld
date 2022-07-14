@@ -24,14 +24,10 @@ on:
         default: us-east-1
       git_hub_sha:
         required: true
-    secrets:
-      duplo_host:
-        required: true
-        duplo_host: https://test01.duplocloud.net
-      duplo_token:
-        required: true
-        duplo_token: ${{ secrets.DUPLO_TOKEN }}
-     
+
+env:
+  duplo_host: https://test01.duplocloud.net  # CHANGE ME!
+  duplo_token: "${{ secrets.DUPLO_TOKEN }}"     
 
 jobs:
   revert-to-previous:
@@ -45,8 +41,8 @@ jobs:
       - name: AWS just-in-time access
         uses: duplocloud/ghactions-aws-jit@master
         with:
-          duplo_host: ${{ secrets.duplo_host }}
-          duplo_token: ${{ secrets.duplo_token }}
+          duplo_host: ${{ duplo_host }}
+          duplo_token: ${{ duplo_token }}
           tenant: ${{ inputs.duplo_tenant }}
 
       - name: CF revert
