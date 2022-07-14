@@ -48,7 +48,7 @@ jobs:
 
       - name: CF revert
         run: |-
-          NEW_ORIGIN_PATH2=/`$(git log -2 --format=format:"%H"|tail -1)`
+          NEW_ORIGIN_PATH2=/$(git rev-parse @~)
           echo $NEW_ORIGIN_PATH2
           NEW_ORIGIN_PATH=/$(git log -2 --format=format:"%H"|tail -1)
           echo $NEW_ORIGIN_PATH
