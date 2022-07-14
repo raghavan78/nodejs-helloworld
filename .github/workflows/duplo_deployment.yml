@@ -56,14 +56,10 @@ jobs:
       - name: CF update
         run: |-
 	  NEW_ORIGIN_PATH="{{ github.sha }}"
-	  DIST_CONFIG_OLD_FILENAME="dist-config.json" # a temp file, which will be removed later
-	  DIST_CONFIG_NEW_FILENAME="dist-config2.json" # a temp file, which will be removed later
+	  DIST_CONFIG_OLD_FILENAME="dist-config.json" 
+	  DIST_CONFIG_NEW_FILENAME="dist-config2.json" 
 	  aws cloudfront get-distribution --id ${{inputs.cloudfront_distribution_id}}) > $DIST_CONFIG_OLD_FILENAME
 	  Etag=`cat $DIST_CONFIG_OLD_FILENAME | jq '.ETag' | tr -d \"`
-          echo $Etag
-          #current_distribution_config=$(aws cloudfront get-distribution --id ${{inputs.cloudfront_distribution_id}})
-          #echo $current_distribution_config
-          #aws cloudfront update-distribution --id ${{inputs.cloudfront_distribution_id}} --distribution-config $current_distribution_config
 
       - name: Invalidate Cloudfront
         uses: chetan/invalidate-cloudfront-action@v2
