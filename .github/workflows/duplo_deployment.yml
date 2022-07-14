@@ -53,14 +53,10 @@ jobs:
           aws s3 sync build/ "s3://${{ inputs.target_s3_bucket }}/"
           aws s3 sync build/ "s3://${{ inputs.target_s3_bucket }}/${{ github.sha }}"
 
-      - name: Changing cloudfront origin
-        run:  |-
-          echo -e "Changing cloudfront origin..."
-  	  #current_distribution_config=$(aws cloudfront get-distribution --id ${{inputs.cloudfront_distribution_id}})
-          #next_distribution_config=$(bin/lib/update-distribution ${{ github.sha }}  "${{inputs.cloudfront_distribution_id}}"  
-          #etag=$(bin/lib/get-etag "${current_distribution_config}")
+      - name: CF update
+        run: |-
           aws cloudfront update-distribution --id ${{inputs.cloudfront_distribution_id}} --distribution-config ${{ github.sha }}
-      
+
       - name: Invalidate Cloudfront
         uses: chetan/invalidate-cloudfront-action@v2
         env:
