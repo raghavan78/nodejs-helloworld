@@ -72,7 +72,7 @@ jobs:
     with:
       api_url: https://api_url
       app_url: https://app_url
-      duplo_tenant:  "${{ env.TENANT_NAME }}"
+      duplo_tenant: ${{ env.TENANT_NAME }}
       react_app_stage: development
       cloudfront_distribution_id: E1QGIWKA2DZY0A
       target_s3_bucket: duploservices-dev-fe-02-existing-app-333387423585
