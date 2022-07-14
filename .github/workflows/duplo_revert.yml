@@ -1,4 +1,4 @@
-name: duplo deployment
+name: duplo revert
 
 on:
   workflow_call:
@@ -31,7 +31,7 @@ on:
         required: true
 
 jobs:
-  deploy-to-staging:
+  revert-to-previous:
     name: Deploy to staging
     runs-on: ubuntu-latest
 
