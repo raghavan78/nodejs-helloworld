@@ -56,11 +56,19 @@ jobs:
       - name: CF update
         run: |-
           NEW_ORIGIN_PATH="{{ github.sha }}"
+          CLOUDFRONT_ORIGIN_ID="E1QGIWKA2DZY0A"
           DIST_CONFIG_OLD_FILENAME="dist-config.json"
           DIST_CONFIG_NEW_FILENAME="dist-config2.json"
           aws cloudfront get-distribution --id ${{inputs.cloudfront_distribution_id}} > $DIST_CONFIG_OLD_FILENAME
           Etag=`cat $DIST_CONFIG_OLD_FILENAME | jq '.ETag' | tr -d \"`
           echo $Etag
+          cat $DIST_CONFIG_OLD_FILENAME | jq \
+            --arg targetOriginId $CLOUDFRONT_ORIGIN_ID \
+            --arg newOriginPath $NEW_ORIGIN_PATH \
+            '.Distribution.DistributionConfig | .Origins.Items = (.Origins.Items | map(if (.Id == $targetOriginId) then (.OriginPath = $newOriginPath) else . end))' \
+            > $DIST_CONFIG_NEW_FILENAME
+          cat $DIST_CONFIG_NEW_FILENAME
+          rm -f $DIST_CONFIG_OLD_FILENAME $DIST_CONFIG_NEW_FILENAME
 
       - name: Invalidate Cloudfront
         uses: chetan/invalidate-cloudfront-action@v2
