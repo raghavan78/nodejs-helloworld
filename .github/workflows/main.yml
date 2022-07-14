@@ -67,7 +67,7 @@ jobs:
 
   copys3:
     name: Deploy to dev
-    needs: [deploy]
+    needs: [build, deploy]
     uses: ./.github/workflows/duplo_deployment.yml
     with:
       api_url: https://api_url
