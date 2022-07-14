@@ -75,7 +75,7 @@ jobs:
       duplo_tenant: raghavan01
       react_app_stage: development
       cloudfront_distribution_id: E1QGIWKA2DZY0A
-      target_s3_bucket: duploservices-dev-fe-02-existing-app-333387423585
+      target_s3_bucket: duploservices-raghavan01-s3app1-386269687991
     secrets:
-      duplo_host: ${{ secrets.DUPLO_DEV_HOST }}
-      duplo_token: ${{ secrets.DUPLO_DEV_TOKEN }}
+      duplo_host: https://test01.duplocloud.net
+      duplo_token: ${{ secrets.DUPLO_TOKEN }}
