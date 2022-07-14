@@ -58,7 +58,7 @@ jobs:
           NEW_ORIGIN_PATH="{{ github.sha }}"
           DIST_CONFIG_OLD_FILENAME="dist-config.json"
           DIST_CONFIG_NEW_FILENAME="dist-config2.json"
-          aws cloudfront get-distribution --id ${{inputs.cloudfront_distribution_id}}) > $DIST_CONFIG_OLD_FILENAME
+          aws cloudfront get-distribution --id ${{inputs.cloudfront_distribution_id}} > $DIST_CONFIG_OLD_FILENAME
 
       - name: Invalidate Cloudfront
         uses: chetan/invalidate-cloudfront-action@v2
