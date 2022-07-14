@@ -27,7 +27,6 @@ on:
 
 env:
   duplo_host: https://test01.duplocloud.net  # CHANGE ME!
-  duplo_token: "${{ secrets.DUPLO_TOKEN }}"     
 
 jobs:
   revert-to-previous:
@@ -41,8 +40,8 @@ jobs:
       - name: AWS just-in-time access
         uses: duplocloud/ghactions-aws-jit@master
         with:
-          duplo_host: ${{ duplo_host }}
-          duplo_token: ${{ duplo_token }}
+          duplo_host: ${{ env.duplo_host }}
+          duplo_token: "${{ secrets.DUPLO_TOKEN }}"
           tenant: ${{ inputs.duplo_tenant }}
 
       - name: CF revert
