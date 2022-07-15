@@ -3,30 +3,17 @@ name: duplo revert
 on:
   workflow_dispatch:
     inputs:
-      cloudfront_distribution_id:
-        required: true
-        type: string
-        default: E1QGIWKA2DZY0A
-      duplo_tenant:
-        required: true
-        type: string
-        default: raghavan01
-      api_url:
-        required: true
-        type: string
-        default: https://api_url
-      app_url:
-        required: true
-        type: string
-        default: https://app_url
-      aws_region:
-        type: string
-        default: us-east-1
       git_hub_sha:
         required: true
 
 env:
+  duplo_token: "${{ secrets.DUPLO_TOKEN }}"
   duplo_host: https://test01.duplocloud.net  # CHANGE ME!
+  cloudfront_distribution_id: E1QGIWKA2DZY0A  # CHANGE ME!
+  duplo_tenant: raghavan01  # CHANGE ME!
+  api_url: https://api_url # CHANGE ME!
+  app_url: https://app_url # CHANGE ME!
+  aws_region: us-east-1 # CHANGE ME!
 
 jobs:
   revert-to-previous:
@@ -41,7 +28,7 @@ jobs:
         uses: duplocloud/ghactions-aws-jit@master
         with:
           duplo_host: ${{ env.duplo_host }}
-          duplo_token: "${{ secrets.DUPLO_TOKEN }}"
+          duplo_token: "${{ env.duplo_token }}"
           tenant: ${{ inputs.duplo_tenant }}
 
       - name: CF revert
