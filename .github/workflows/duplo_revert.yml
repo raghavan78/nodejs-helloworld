@@ -1,4 +1,4 @@
-distconfigname: duplo revert
+name: duplo revert 
 
 on:
   workflow_dispatch:
@@ -18,7 +18,7 @@ env:
 
 jobs:
   revert-to-previous:
-    name: Deploy to staging
+    name: Deployment based on SHA 
     runs-on: ubuntu-latest
 
     steps:
@@ -32,7 +32,7 @@ jobs:
           duplo_token: "${{ env.duplo_token }}"
           tenant: ${{ env.duplo_tenant }}
 
-      - name: Cloud Front update the Origin path based on github sha input
+      - name: Cloudfront update Origin path based on github sha input
         run: |-
           new_origin_path=/${{ inputs.git_hub_sha }}
           temp_distconfig_old="distconfig-old.json"
