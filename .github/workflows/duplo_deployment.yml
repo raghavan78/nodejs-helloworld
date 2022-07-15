@@ -55,7 +55,7 @@ jobs:
 
       - name: Cf update the origin
         run: |-
-          new_origin_path=/${{ git_hub_sha }}
+          new_origin_path=/${{ github.sha }}
           cloudfront_origin_id=duploservices-raghavan01-s3app1-386269687991.s3.us-east-1.amazonaws.com  # CHANGE ME
           DIST_CONFIG_OLD_FILENAME="dist-config.json"
           DIST_CONFIG_NEW_FILENAME="dist-config2.json"
