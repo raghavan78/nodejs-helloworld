@@ -53,18 +53,18 @@ jobs:
           #aws s3 sync build/ "s3://${{ inputs.target_s3_bucket }}/"
           aws s3 sync build/ "s3://${{ inputs.target_s3_bucket }}/${{ github.sha }}"
 
-      - name: Cf update the origin
+      - name: CF update the origin path based on github sha
         run: |-
           new_origin_path=/${{ github.sha }}
           cloudfront_origin_id=duploservices-raghavan01-s3app1-386269687991.s3.us-east-1.amazonaws.com  # CHANGE ME
-          DIST_CONFIG_OLD_FILENAME="dist-config.json"
-          DIST_CONFIG_NEW_FILENAME="dist-config2.json"
-          aws cloudfront get-distribution --id ${{inputs.cloudfront_distribution_id}} > $DIST_CONFIG_OLD_FILENAME
-          Etag=`cat $DIST_CONFIG_OLD_FILENAME | jq '.ETag' | tr -d \"`
-          cat $DIST_CONFIG_OLD_FILENAME | jq --arg targetOriginId $cloudfront_origin_id --arg newOriginPath $new_origin_path '.Distribution.DistributionConfig | .Origins.Items = (.Origins.Items | map(if (.Id == $targetOriginId) then (.OriginPath = $newOriginPath) else . end))' > $DIST_CONFIG_NEW_FILENAME
-          cat $DIST_CONFIG_NEW_FILENAME
-          aws cloudfront update-distribution --id ${{inputs.cloudfront_distribution_id}} --distribution-config "file://${DIST_CONFIG_NEW_FILENAME}" --if-match $Etag > /dev/null
-          rm -f $DIST_CONFIG_OLD_FILENAME $DIST_CONFIG_NEW_FILENAME
+          temp_distconfig_old="distconfig-old.json"
+          temp_distconfig_new="distconfig-new.json"
+          aws cloudfront get-distribution --id ${{inputs.cloudfront_distribution_id}} > $temp_distconfig_old
+          Etag=`cat $temp_distconfig_old | jq '.ETag' | tr -d \"`
+          cat $temp_distconfig_old | jq --arg targetOriginId $cloudfront_origin_id --arg newOriginPath $new_origin_path '.Distribution.DistributionConfig | .Origins.Items = (.Origins.Items | map(if (.Id == $targetOriginId) then (.OriginPath = $newOriginPath) else . end))' > $temp_distconfig_new
+          cat $temp_distconfig_new
+          aws cloudfront update-distribution --id ${{inputs.cloudfront_distribution_id}} --distribution-config "file://${temp_distconfig_new}" --if-match $Etag > /dev/null
+          rm -f $temp_distconfig_old $temp_distconfig_new
 
       - name: Invalidate Cloudfront
         uses: chetan/invalidate-cloudfront-action@v2
