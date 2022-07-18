@@ -15,6 +15,7 @@ env:
   app_url: https://app_url # CHANGE ME!
   aws_region: us-east-1 # CHANGE ME!
   cloudfront_origin_id: duploservices-raghavan01-s3app1-386269687991.s3.us-east-1.amazonaws.com  # CHANGE ME
+  s3_bucket: duploservices-raghavan01-s3app1-386269687991
 
 jobs:
   revert-to-previous:
@@ -27,7 +28,7 @@ jobs:
 
       - name: check if s3 exists
         run: |-
-          S3_CHECK=$(aws s3 ls  "s3://duploservices-raghavan01-s3app1-386269687991/01e2abdb5a91e2df7482e3c15dd82e8eb71595d9/" 2>&1)
+          S3_CHECK=$(aws s3 ls "s3://${{ env.s3_bucket }}/${{ inputs.git_hub_sha }}/" 2>&1)
 
       - name: AWS just-in-time access
         uses: duplocloud/ghactions-aws-jit@master
