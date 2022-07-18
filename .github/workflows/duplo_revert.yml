@@ -25,6 +25,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
+      - name: check if s3 exists
+        run: |-
+          S3_CHECK=$(aws s3 ls  "s3://duploservices-raghavan01-s3app1-386269687991/01e2abdb5a91e2df7482e3c15dd82e8eb71595d9/" 2>&1)
+
       - name: AWS just-in-time access
         uses: duplocloud/ghactions-aws-jit@master
         with:
