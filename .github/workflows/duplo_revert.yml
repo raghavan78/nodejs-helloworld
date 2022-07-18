@@ -28,7 +28,7 @@ jobs:
 
       - name: check if s3 exists
         run: |-
-          aws s3 ls "s3://${{ env.s3_bucket }}/${{ inputs.git_hub_sha }}/
+          aws s3 ls "s3://${{ env.s3_bucket }}/${{ inputs.git_hub_sha }}/"
 
       - name: AWS just-in-time access
         uses: duplocloud/ghactions-aws-jit@master
