@@ -26,16 +26,16 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: check if s3 exists
-        run: |-
-          aws s3 ls "s3://${{ env.s3_bucket }}/${{ inputs.git_hub_sha }}/"
-
       - name: AWS just-in-time access
         uses: duplocloud/ghactions-aws-jit@master
         with:
           duplo_host: ${{ env.duplo_host }}
           duplo_token: "${{ env.duplo_token }}"
           tenant: ${{ env.duplo_tenant }}
+
+      - name: check if s3 exists
+        run: |-
+          aws s3 ls "s3://${{ env.s3_bucket }}/${{ inputs.git_hub_sha }}/"
 
       - name: Cloudfront update Origin path based on github sha input
         run: |-
