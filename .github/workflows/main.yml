@@ -36,7 +36,7 @@ jobs:
       - name: Url update
         run: |
           cat  ./src/services/config.js
-          sed -i "s|{{API_URL}}|https://myurl" ./src/services/config.js
+          sed -i "s|{{API_URL}}|https://myurl|g" ./src/services/config.js
           cat  ./src/services/config.js 
       # Build and push the docker image
       - name: Docker Build and Push
