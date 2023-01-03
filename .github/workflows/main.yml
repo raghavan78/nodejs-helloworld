@@ -33,7 +33,11 @@ jobs:
       - name: Login to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
-
+      - name: Url update
+        run: |
+          cat  ./src/services/config.js
+          sed -i "s|{{API_URL}}|https://myurl" ./src/services/config.js
+          cat  ./src/services/config.js 
       # Build and push the docker image
       - name: Docker Build and Push
         uses: docker/build-push-action@v2
