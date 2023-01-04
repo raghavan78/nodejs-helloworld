@@ -16,6 +16,7 @@ env:
   duplo_token: "${{ secrets.DUPLO_TOKEN }}"
   SERVICE_NAME: mynodejs                      # CHANGE ME!
   TENANT_NAME: raghavan01                       # CHANGE ME!
+  BASE_API_URL: https://myurl1
   
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -36,7 +37,7 @@ jobs:
       - name: Url update
         run: |
           cat  ./src/services/config.js
-          sed -i "s|{{API_URL}}|https://myurl|g" ./src/services/config.js
+          sed -i "s|{{API_URL}}|${{ env.BASE_API_URL }}|g" ./src/services/config.js
           cat  ./src/services/config.js 
       # Build and push the docker image
       - name: Docker Build and Push
