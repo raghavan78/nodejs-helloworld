@@ -48,7 +48,7 @@ jobs:
       
     steps:
       - name: Envirnoment that would be used
-        run: echo "Using envirnoment ${{ needs.envbranch.branch_check.outputs.env_name }}"
+        run: echo "Using envirnoment $GITHUB_OUTPUT"
         
       - name: Checkout
         uses: actions/checkout@v2
