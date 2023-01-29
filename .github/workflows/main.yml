@@ -42,8 +42,8 @@ jobs:
         run: echo "Using envirnoment ${{ steps.branch_check.outputs.env_name }}"
         
   build:
-    runs-on: ubuntu-latest
     needs: envbranch
+    runs-on: ubuntu-latest
     # Setting the envirnoment needed
     environment:
       name: ${{ needs.envbranch.outputs.env_name }}
