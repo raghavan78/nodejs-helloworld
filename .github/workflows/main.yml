@@ -66,9 +66,9 @@ jobs:
         uses: aws-actions/amazon-ecr-login@v1
       - name: Url update
         run: |
-          cat  ./src/services/config.js
-          sed -i "s|{{API_URL}}|${{ env.BASE_API_URL }}|g" ./src/services/config.js
-          cat  ./src/services/config.js 
+          cat  ./src/services/config.py
+          sed -i "s|$KAFKA_BOOTSRAP_SERVER|${{ env.BASE_API_URL }}|g" ./src/services/config.py
+          cat  ./src/services/config.py 
       # Build and push the docker image
       - name: Docker Build and Push
         uses: docker/build-push-action@v2
