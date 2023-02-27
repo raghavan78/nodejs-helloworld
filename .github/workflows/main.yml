@@ -67,7 +67,7 @@ jobs:
       - name: Url update
         run: |
           cat  ./src/services/config.py
-          sed -i "s|$KAFKA_BOOTSRAP_SERVER|${{ env.BASE_API_URL }}|g" ./src/services/config.py
+          sed -i "s|\$KAFKA_BOOTSRAP_SERVER|${{ env.BASE_API_URL }}|g" ./src/services/config.py
           cat  ./src/services/config.py 
       # Build and push the docker image
       - name: Docker Build and Push
