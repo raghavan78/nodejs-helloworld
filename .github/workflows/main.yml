@@ -16,7 +16,7 @@ env:
   duplo_token: "${{ secrets.DUPLO_TOKEN }}"
   SERVICE_NAME: mynodejs                      # CHANGE ME!
   TENANT_NAME: raghavan01                       # CHANGE ME!
-  BASE_API_URL: https://myurl1
+  BASE_API_URL: "172.22.5.89:9092"
   
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
